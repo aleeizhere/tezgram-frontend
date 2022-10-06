@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, ImageList, ImageListItem, Modal } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -12,6 +11,7 @@ import ImageModal from "./ImageModal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import UploadModal from "./UploadModal";
+import { backendUri } from "../constants";
 
 const Main = () => {
   const stateObj = useSelector((state) => state.app);
@@ -68,13 +68,10 @@ const Main = () => {
                   <DeleteIcon
                     className="absolute transform bottom-2 left-2 drop-shadow text-gray-200  transition-transform ease-in-out duration-300 active:scale-150"
                     onClick={async () => {
-                      await axios.post(
-                        "http://localhost:3333/auth/deleteimage",
-                        {
-                          username: stateObj.username,
-                          url: i,
-                        }
-                      );
+                      await axios.post(`${backendUri}/auth/deleteimage`, {
+                        username: stateObj.username,
+                        url: i,
+                      });
                       const newList = stateObj.imagelist.filter((x) => i !== x);
                       dispatch(appActions.resetImageList(newList));
                     }}

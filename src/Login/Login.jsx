@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { appActions } from "../store/appSice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { backendUri } from "../constants";
 
-let rendCount = 0;
 const Login = () => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({ username: "", password: "" });
@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const userApiData = await axios.post(
-        "http://localhost:3333/auth/login",
+        `${backendUri}/auth/login`,
         loginInfo
       );
       dispatch(appActions.setUser(userApiData.data.user));

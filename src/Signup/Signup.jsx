@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Alert, Button, Link, TextField, Typography } from "@mui/material";
+import { backendUri } from "../constants";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -38,17 +39,18 @@ const Signup = () => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:3333/auth/signup",
+          `${backendUri}/auth/signup`,
           userCreds
         );
         setIssues(response.data.message);
+        clear();
         setTimeout(() => {
           navigate("/");
         }, 2000);
       } catch (e) {
+        console.log(e.response);
         setIssues(e.response.data.message);
       }
-      clear();
       setShowAlert("");
       setTimeout(() => {
         setShowAlert("none");

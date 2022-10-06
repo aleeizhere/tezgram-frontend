@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
+import { backendUri } from "../constants";
 import { storage } from "../firebase";
 
 export const uploadFile = async (imageUpload, stateObj) => {
@@ -13,9 +13,9 @@ export const uploadFile = async (imageUpload, stateObj) => {
     const snap = await uploadBytes(imageRef, imageUpload);
     const url = await getDownloadURL(snap.ref);
     try {
-      console.log(stateObj.username);
+      // console.log(stateObj.username);
       //   console.log(url);
-      axios.post("http://localhost:3333/auth/newimage/", {
+      await axios.post(`${backendUri}/auth/newimage/`, {
         username: stateObj.username,
         url: url,
       });

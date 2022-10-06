@@ -78,7 +78,7 @@ const UploadModal = ({ uploadModal, setUploadModal }) => {
               <div className="grid grid-cols-5">
                 {imageUpload.map((i, index) => {
                   return (
-                    <div className="w-full">
+                    <div key={index} className="w-full">
                       <img
                         key={index}
                         className="object-cover w-full h-full"
@@ -114,12 +114,14 @@ const UploadModal = ({ uploadModal, setUploadModal }) => {
             onClick={() => {
               if (imageUpload) {
                 setwaitingUpload(true);
+                console.log("Image Upload =>", imageUpload.length);
                 let uploadCount = 0;
                 imageUpload.forEach(async (x) => {
                   const urlMain = await uploadFile(x, stateObj);
                   dispatch(appActions.setNewImage(urlMain));
                   uploadCount++;
-                  if (uploadCount === imageUpload.length - 1) {
+                  console.log(uploadCount);
+                  if (uploadCount === imageUpload.length) {
                     setImageUpload(null);
                     setUploadModal(false);
                     setwaitingUpload(false);
